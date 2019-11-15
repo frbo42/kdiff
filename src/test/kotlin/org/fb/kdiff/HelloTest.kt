@@ -17,6 +17,11 @@ class HelloTest {
         assertTrue( execute(t, t))
     }
 
+    @Test
+    internal fun `dummy failing test`() {
+        fail<String>("I failed")
+    }
+
     private fun execute(a: Boolean, b: Boolean): Boolean = !(!a && !b)
     fun execute2(a: Boolean, b: Boolean): Boolean = !(!a || !b)
 
