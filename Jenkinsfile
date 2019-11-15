@@ -1,5 +1,10 @@
 pipeline {
     agent { docker { image 'maven:3.6.0' } }
+
+    environment{
+        build.number BUILD_NUMBER
+    }
+
     stages {
         stage('build') {
             steps {
@@ -7,6 +12,7 @@ pipeline {
             }
         }
     }
+
     post{
         always{
             archiveArtifacts artifacts: 'target/**/*', fingerprint: true
