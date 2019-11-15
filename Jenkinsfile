@@ -19,6 +19,10 @@ pipeline {
             junit 'target/surefire-reports/**/*.xml'
             echo 'build number 1 "${env.BUILD_NUMBER}"'
             echo 'build number 2 "${build_number}"'
+            echo 'build number 3 ${build_number}'
+            echo build number 4 "${build_number}"
+            echo build number 5 '${build_number}'
+            echo "build number 5 ${build_number}"
         }
     }
 }
