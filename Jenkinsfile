@@ -2,7 +2,7 @@ pipeline {
     agent { docker { image 'maven:3.6.0' } }
 
     environment{
-        build.number = "${BUILD_NUMBER}"
+        build.number = "${env.BUILD_NUMBER}"
     }
 
     stages {
@@ -17,6 +17,7 @@ pipeline {
         always{
             archiveArtifacts artifacts: 'target/**/*', fingerprint: true
             junit 'target/surefire-reports/**/*.xml'
+            echo 'build number "${BUILD_NUMBER}"'
         }
     }
 }
