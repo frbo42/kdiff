@@ -17,7 +17,8 @@ pipeline {
         always{
             archiveArtifacts artifacts: 'target/**/*', fingerprint: true
             junit 'target/surefire-reports/**/*.xml'
-            echo 'build number "${BUILD_NUMBER}"'
+            echo 'build number 1 "${env.BUILD_NUMBER}"'
+            echo 'build number 2 "${build_number}"'
         }
     }
 }
