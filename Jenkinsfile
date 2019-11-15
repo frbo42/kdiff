@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh 'mvn install -Dbuild.number=${BUILD_NUMBER}'
+                sh 'mvn -B -DskipTests clean package -Dbuild.number=${BUILD_NUMBER}'
             }
         }
     }
