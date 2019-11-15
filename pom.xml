@@ -111,7 +111,7 @@
                 <configuration>
                     <archive>
                         <manifestEntries>
-                            <Build-Version>${env.build_number}</Build-Version>
+                            <Build-Version>${env.BUILD_NUMBER}</Build-Version>
                         </manifestEntries>
                     </archive>
                 </configuration>
