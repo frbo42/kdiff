@@ -9,6 +9,7 @@ pipeline {
     }
     post{
         always{
+            archiveArtifacts artifacts: 'target/**/*'
             junit 'target/surfire-reports/**/*.xml'
         }
     }
