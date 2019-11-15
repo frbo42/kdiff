@@ -3,18 +3,13 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh 'mvn compile'
-            }
-        }
-        stage('test') {
-            steps {
                 sh 'mvn test'
             }
         }
     }
     post{
         always{
-            junit 'build/reports/**/*.xml'
+            junit 'target/surfire-reports/**/*.xml'
         }
     }
 }
