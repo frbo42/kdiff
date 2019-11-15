@@ -3,13 +3,18 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh 'mvn --version'
+                sh 'mvn compile'
+            }
+        }
+        stage('test') {
+            steps {
+                sh 'mvn test'
             }
         }
     }
     post{
         always{
-            echo 'frbo done'
+            junit 'build/reports/**/*.xml'
         }
     }
 }
