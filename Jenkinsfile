@@ -2,7 +2,7 @@ pipeline {
     agent { docker { image 'maven:3.6.0' } }
 
     environment{
-        build.number = "${env.BUILD_NUMBER}"
+        build_number = "${env.BUILD_NUMBER}"
     }
 
     stages {
