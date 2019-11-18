@@ -9,7 +9,7 @@
     </parent>
     <groupId>org.fb</groupId>
     <artifactId>kdiff</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2-SNAPSHOT</version>
     <name>kdiff</name>
     <description>Showing and merging folders</description>
 
@@ -78,7 +78,7 @@
 
     <scm>
         <developerConnection>scm:git:https://github.com/frbo42/kdiff.git</developerConnection>
-      <tag>kdiff-0.0.1</tag>
+      <tag>HEAD</tag>
   </scm>
     <build>
         <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
