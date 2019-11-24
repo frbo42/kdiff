@@ -2,6 +2,7 @@ package org.fb.kdiff.ui
 
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
+import javafx.scene.control.Button
 import javafx.scene.control.TableCell
 import javafx.scene.control.TableColumn
 import javafx.scene.control.TableView
@@ -54,8 +55,10 @@ class ActionCell() : TableCell<DiffItem, HBox>() {
     private val iconSize = 18.0
     private val left = ImageView(Image(ClassPathResource("/icons/ic_chevron_left_black_18dp.png").inputStream, iconSize, iconSize, true, true))
     private val right = ImageView(Image(ClassPathResource("/icons/ic_chevron_right_black_18dp.png").inputStream, iconSize, iconSize, true, true))
+    private val toRight = Button(null, right)
+    private val toLeft = Button(null, left)
+    private val box = HBox(5.0, toLeft, toRight)
 
-    private val box = HBox(5.0, left, right)
     override fun updateItem(item: HBox?, empty: Boolean) {
         super.updateItem(item, empty)
 
