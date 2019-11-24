@@ -7,6 +7,7 @@ import javafx.scene.control.TableColumn
 import javafx.scene.control.TableView
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
+import javafx.scene.layout.HBox
 import javafx.util.Callback
 import org.fb.kdiff.app.FileService
 import org.fb.kdiff.domain.DiffItem
@@ -21,15 +22,15 @@ class KdiffController(private val fileService: FileService) {
     private val diffItems = FXCollections.observableArrayList<DiffItem>()
 
     private val request = PathRequest(
-        Path.of("/home/frank/development/frbo/kotlin/kdiff_pics/mimacom"),
-        Path.of("/home/frank/development/frbo/kotlin/kdiff_pics/target"),
-        Path.of("/")
+            Path.of("/home/frank/development/frbo/kotlin/kdiff_pics/mimacom"),
+            Path.of("/home/frank/development/frbo/kotlin/kdiff_pics/target"),
+            Path.of("/")
     )
 
     @FXML
     private lateinit var diffTable: TableView<DiffItem>
     @FXML
-    private lateinit var actionColumn: TableColumn<DiffItem, ImageView>
+    private lateinit var actionColumn: TableColumn<DiffItem, HBox>
 
     @FXML
     fun initialize() {
@@ -42,23 +43,27 @@ class KdiffController(private val fileService: FileService) {
     }
 }
 
-class ActionCellFactory : Callback<TableColumn<DiffItem, ImageView>, TableCell<DiffItem, ImageView>> {
-    override fun call(param: TableColumn<DiffItem, ImageView>): TableCell<DiffItem, ImageView> {
+class ActionCellFactory : Callback<TableColumn<DiffItem, HBox>, TableCell<DiffItem, HBox>> {
+    override fun call(param: TableColumn<DiffItem, HBox>): TableCell<DiffItem, HBox> {
         return ActionCell()
     }
 }
 
-class ActionCell() : TableCell<DiffItem, ImageView>() {
-    private val imageView = ImageView(Image(ClassPathResource("/icons/chevron_left_black_18x18.png").inputStream))
+class ActionCell() : TableCell<DiffItem, HBox>() {
 
-    override fun updateItem(item: ImageView?, empty: Boolean) {
+    private val iconSize = 18.0
+    private val left = ImageView(Image(ClassPathResource("/icons/ic_chevron_left_black_18dp.png").inputStream, iconSize, iconSize, true, true))
+    private val right = ImageView(Image(ClassPathResource("/icons/ic_chevron_right_black_18dp.png").inputStream, iconSize, iconSize, true, true))
+
+    private val box = HBox(5.0, left, right)
+    override fun updateItem(item: HBox?, empty: Boolean) {
         super.updateItem(item, empty)
 
         if (empty) {
             text = null
             graphic = null
         } else {
-            graphic = imageView
+            graphic = box
         }
     }
 }
