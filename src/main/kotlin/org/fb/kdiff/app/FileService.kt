@@ -13,19 +13,25 @@ class FileService {
     fun filesAt(pathRequest: PathRequest): List<DiffItem> {
         val leftFiles = fileList(pathRequest.leftRoot)
         val rightFiles = fileList(pathRequest.rightRoot)
-        val merged = mutableSetOf<Path>()
+
+        val merged = mutableSetOf<String>()
         merged.addAll(leftFiles)
         merged.addAll(rightFiles)
 
         return merged.map {
-            val left = if (leftFiles.contains(it)) it.fileName.toString() else "-"
-            val right = if (rightFiles.contains(it)) it.fileName.toString() else "-"
+            val left = if (leftFiles.contains(it)) it else Companion.MISSING
+            val right = if (rightFiles.contains(it)) it else Companion.MISSING
             DiffItem(left, right)
         }
     }
 
-    private fun fileList(path: Path): List<Path> {
-        return if (Files.exists(path)) Files.list(path).sorted().toList() else listOf()
+    private fun fileList(path: Path): List<String> {
+        return if (Files.exists(path)) {
+            Files.list(path)
+                    .map { it.fileName.toString() }
+                    .toList()
+        } else
+            listOf()
     }
 
     fun copyRight(diffItem: DiffItem) {
@@ -34,5 +40,9 @@ class FileService {
         val sourcePath = source.resolve(diffItem.left)
         val targetPath = target.resolve(diffItem.left)
         sourcePath.toFile().copyTo(targetPath.toFile())
+    }
+
+    companion object {
+        private const val MISSING = "-"
     }
 }
