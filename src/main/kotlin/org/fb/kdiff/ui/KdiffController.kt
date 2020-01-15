@@ -1,6 +1,7 @@
 package org.fb.kdiff.ui
 
 import javafx.collections.FXCollections
+import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.scene.control.Button
 import javafx.scene.control.TableCell
@@ -35,8 +36,7 @@ class KdiffController(private val fileService: FileService) {
 
     @FXML
     fun initialize() {
-//        actionColumn.cellValueFactory = PropertyValueFactory<DiffItem, ImageView>("leftIcon")
-        actionColumn.cellFactory = ActionCellFactory()
+        actionColumn.cellFactory = ActionCellFactory(fileService)
         diffTable.items = diffItems
 
         val filesAt = fileService.filesAt(request)
@@ -44,13 +44,13 @@ class KdiffController(private val fileService: FileService) {
     }
 }
 
-class ActionCellFactory : Callback<TableColumn<DiffItem, HBox>, TableCell<DiffItem, HBox>> {
+class ActionCellFactory(private val fileService: FileService) : Callback<TableColumn<DiffItem, HBox>, TableCell<DiffItem, HBox>> {
     override fun call(param: TableColumn<DiffItem, HBox>): TableCell<DiffItem, HBox> {
-        return ActionCell()
+        return ActionCell(fileService)
     }
 }
 
-class ActionCell() : TableCell<DiffItem, HBox>() {
+class ActionCell(private val fileService: FileService) : TableCell<DiffItem, HBox>() {
 
     private val iconSize = 18.0
     private val left = ImageView(Image(ClassPathResource("/icons/ic_chevron_left_black_18dp.png").inputStream, iconSize, iconSize, true, true))
@@ -58,6 +58,15 @@ class ActionCell() : TableCell<DiffItem, HBox>() {
     private val toRight = Button(null, right)
     private val toLeft = Button(null, left)
     private val box = HBox(5.0, toLeft, toRight)
+
+    init {
+        toRight.onAction = EventHandler { tableRow?.item?.let { it1 -> copyRight(it1) } }
+
+    }
+
+    private fun copyRight(item: DiffItem) {
+        fileService.copyRight(item)
+    }
 
     override fun updateItem(item: HBox?, empty: Boolean) {
         super.updateItem(item, empty)

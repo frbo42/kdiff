@@ -27,4 +27,12 @@ class FileService {
     private fun fileList(path: Path): List<Path> {
         return if (Files.exists(path)) Files.list(path).sorted().toList() else listOf()
     }
+
+    fun copyRight(diffItem: DiffItem) {
+        val source = Path.of("/home/frank/development/frbo/kotlin/kdiff_pics/mimacom")
+        val target = Path.of("/home/frank/development/frbo/kotlin/kdiff_pics/target")
+        val sourcePath = source.resolve(diffItem.left)
+        val targetPath = target.resolve(diffItem.left)
+        sourcePath.toFile().copyTo(targetPath.toFile())
+    }
 }
