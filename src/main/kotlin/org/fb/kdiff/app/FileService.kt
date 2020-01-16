@@ -4,7 +4,6 @@ import org.fb.kdiff.domain.DiffItem
 import org.fb.kdiff.domain.PathRequest
 import org.springframework.stereotype.Service
 import java.io.File
-import java.nio.file.Path
 
 @Service
 class FileService {
@@ -20,7 +19,7 @@ class FileService {
         return merged.map {
             val left = if (leftFiles.contains(it)) it else MISSING
             val right = if (rightFiles.contains(it)) it else MISSING
-            DiffItem(left, right)
+            DiffItem(File(pathRequest.leftRoot, left), File(pathRequest.rightRoot, right))
         }
     }
 
@@ -33,12 +32,11 @@ class FileService {
     }
 
     fun copyRight(diffItem: DiffItem): DiffItem {
-        diffItem.right = diffItem.left
-        val source = Path.of("/home/frank/development/frbo/kotlin/kdiff_pics/mimacom")
-        val target = Path.of("/home/frank/development/frbo/kotlin/kdiff_pics/target")
-        val sourcePath = source.resolve(diffItem.left)
-        val targetPath = target.resolve(diffItem.right)
-        sourcePath.toFile().copyTo(targetPath.toFile())
+        val parent = diffItem.right.parent
+        val name = diffItem.left.name
+        diffItem.right = File(parent, name)
+
+        diffItem.left.copyTo(diffItem.right)
         return diffItem
     }
 

@@ -40,7 +40,6 @@ class KdiffController(private val fileService: FileService) {
     @FXML
     private lateinit var rightPath: Button
 
-
     @FXML
     fun initialize() {
         actionColumn.cellFactory = ActionCellFactory(fileService, diffItems)

@@ -20,7 +20,7 @@
         <columns>
             <TableColumn text="Left">
                 <cellValueFactory>
-                    <PropertyValueFactory property="left"/>
+                    <PropertyValueFactory property="leftName"/>
                 </cellValueFactory>
             </TableColumn>
 
@@ -29,7 +29,7 @@
 
             <TableColumn text="right">
                 <cellValueFactory>
-                    <PropertyValueFactory property="right"/>
+                    <PropertyValueFactory property="rightName"/>
                 </cellValueFactory>
             </TableColumn>
         </columns>
