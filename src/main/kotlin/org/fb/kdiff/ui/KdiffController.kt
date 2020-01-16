@@ -1,6 +1,7 @@
 package org.fb.kdiff.ui
 
 import javafx.collections.FXCollections
+import javafx.collections.ObservableList
 import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.scene.control.Button
@@ -36,21 +37,22 @@ class KdiffController(private val fileService: FileService) {
 
     @FXML
     fun initialize() {
-        actionColumn.cellFactory = ActionCellFactory(fileService)
+        actionColumn.cellFactory = ActionCellFactory(fileService, diffItems)
         diffTable.items = diffItems
 
         val filesAt = fileService.filesAt(request)
         diffItems.setAll(filesAt)
+        diffItems.sort()
     }
 }
 
-class ActionCellFactory(private val fileService: FileService) : Callback<TableColumn<DiffItem, HBox>, TableCell<DiffItem, HBox>> {
+class ActionCellFactory(private val fileService: FileService, private val diffItems: ObservableList<DiffItem>) : Callback<TableColumn<DiffItem, HBox>, TableCell<DiffItem, HBox>> {
     override fun call(param: TableColumn<DiffItem, HBox>): TableCell<DiffItem, HBox> {
-        return ActionCell(fileService)
+        return ActionCell(fileService, diffItems)
     }
 }
 
-class ActionCell(private val fileService: FileService) : TableCell<DiffItem, HBox>() {
+class ActionCell(private val fileService: FileService, private val diffItems: ObservableList<DiffItem>) : TableCell<DiffItem, HBox>() {
 
     private val iconSize = 18.0
     private val left = ImageView(Image(ClassPathResource("/icons/ic_chevron_left_black_18dp.png").inputStream, iconSize, iconSize, true, true))
@@ -61,11 +63,12 @@ class ActionCell(private val fileService: FileService) : TableCell<DiffItem, HBo
 
     init {
         toRight.onAction = EventHandler { tableRow?.item?.let { it1 -> copyRight(it1) } }
-//        todo refresh ui after change
     }
 
     private fun copyRight(item: DiffItem) {
-        fileService.copyRight(item)
+        val changed = fileService.copyRight(item)
+        val indexOf = diffItems.indexOf(item)
+        diffItems[indexOf] = changed
     }
 
     override fun updateItem(item: HBox?, empty: Boolean) {
