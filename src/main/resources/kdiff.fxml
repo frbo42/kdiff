@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
-<HBox xmlns:fx="http://javafx.com/fxml"
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns:fx="http://javafx.com/fxml"
       xmlns="http://javafx.com/javafx"
       fx:controller="org.fb.kdiff.ui.KdiffController"
       prefHeight="400.0" prefWidth="600.0">
+
+    <ToolBar>
+        <Button text="Left" fx:id="leftPath"/>
+        <Button text="Right" fx:id="rightPath"/>
+    </ToolBar>
+
     <TableView
             fx:id="diffTable"
             HBox.hgrow="ALWAYS">
@@ -29,4 +35,4 @@
         </columns>
     </TableView>
 
-</HBox>
+</VBox>

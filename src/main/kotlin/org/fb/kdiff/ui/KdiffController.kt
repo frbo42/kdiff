@@ -11,34 +11,52 @@ import javafx.scene.control.TableView
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.layout.HBox
+import javafx.stage.DirectoryChooser
 import javafx.util.Callback
 import org.fb.kdiff.app.FileService
 import org.fb.kdiff.domain.DiffItem
 import org.fb.kdiff.domain.PathRequest
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Component
-import java.nio.file.Path
+import java.io.File
+
 
 @Component
 class KdiffController(private val fileService: FileService) {
 
     private val diffItems = FXCollections.observableArrayList<DiffItem>()
 
-    private val request = PathRequest(
-            Path.of("/home/frank/development/frbo/kotlin/kdiff_pics/mimacom"),
-            Path.of("/home/frank/development/frbo/kotlin/kdiff_pics/target"),
-            Path.of("/")
+    private var request = PathRequest(
+            File("/home/frank/development/frbo/kotlin/kdiff_pics/mimacom"),
+            File("/home/frank/development/frbo/kotlin/kdiff_pics/target")
     )
 
     @FXML
     private lateinit var diffTable: TableView<DiffItem>
     @FXML
     private lateinit var actionColumn: TableColumn<DiffItem, HBox>
+    @FXML
+    private lateinit var leftPath: Button
+    @FXML
+    private lateinit var rightPath: Button
+
 
     @FXML
     fun initialize() {
         actionColumn.cellFactory = ActionCellFactory(fileService, diffItems)
         diffTable.items = diffItems
+
+        leftPath.onAction = EventHandler {
+            val directoryChooser = DirectoryChooser()
+            val selectedLeft = directoryChooser.showDialog(null)
+            request = request.copy(leftRoot = selectedLeft)
+        }
+
+        rightPath.onAction = EventHandler {
+            val directoryChooser = DirectoryChooser()
+            val selectedLeft = directoryChooser.showDialog(null)
+            request = request.copy(rightRoot = selectedLeft)
+        }
 
         val filesAt = fileService.filesAt(request)
         diffItems.setAll(filesAt)

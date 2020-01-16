@@ -3,9 +3,8 @@ package org.fb.kdiff.app
 import org.fb.kdiff.domain.DiffItem
 import org.fb.kdiff.domain.PathRequest
 import org.springframework.stereotype.Service
-import java.nio.file.Files
+import java.io.File
 import java.nio.file.Path
-import kotlin.streams.toList
 
 @Service
 class FileService {
@@ -19,17 +18,16 @@ class FileService {
         merged.addAll(rightFiles)
 
         return merged.map {
-            val left = if (leftFiles.contains(it)) it else Companion.MISSING
-            val right = if (rightFiles.contains(it)) it else Companion.MISSING
+            val left = if (leftFiles.contains(it)) it else MISSING
+            val right = if (rightFiles.contains(it)) it else MISSING
             DiffItem(left, right)
         }
     }
 
-    private fun fileList(path: Path): List<String> {
-        return if (Files.exists(path)) {
-            Files.list(path)
-                    .map { it.fileName.toString() }
-                    .toList()
+    private fun fileList(path: File): List<String> {
+        return if (path.exists()) {
+            path.list()
+                    .asList()
         } else
             listOf()
     }
