@@ -61,7 +61,7 @@ class ActionCell(private val fileService: FileService) : TableCell<DiffItem, HBo
 
     init {
         toRight.onAction = EventHandler { tableRow?.item?.let { it1 -> copyRight(it1) } }
-
+//        todo refresh ui after change
     }
 
     private fun copyRight(item: DiffItem) {

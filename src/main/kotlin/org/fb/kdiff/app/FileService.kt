@@ -35,10 +35,11 @@ class FileService {
     }
 
     fun copyRight(diffItem: DiffItem) {
+        diffItem.right = diffItem.left
         val source = Path.of("/home/frank/development/frbo/kotlin/kdiff_pics/mimacom")
         val target = Path.of("/home/frank/development/frbo/kotlin/kdiff_pics/target")
         val sourcePath = source.resolve(diffItem.left)
-        val targetPath = target.resolve(diffItem.left)
+        val targetPath = target.resolve(diffItem.right)
         sourcePath.toFile().copyTo(targetPath.toFile())
     }
 
