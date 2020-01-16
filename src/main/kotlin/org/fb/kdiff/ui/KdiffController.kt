@@ -46,17 +46,30 @@ class KdiffController(private val fileService: FileService) {
         diffTable.items = diffItems
 
         leftPath.onAction = EventHandler {
-            val directoryChooser = DirectoryChooser()
-            val selectedLeft = directoryChooser.showDialog(null)
-            request = request.copy(leftRoot = selectedLeft)
+            val folder = selectFolder()
+            folder?.let {
+                request = request.copy(leftRoot = folder)
+                findFiles()
+            }
         }
 
         rightPath.onAction = EventHandler {
-            val directoryChooser = DirectoryChooser()
-            val selectedLeft = directoryChooser.showDialog(null)
-            request = request.copy(rightRoot = selectedLeft)
+            val folder = selectFolder()
+            folder?.let {
+                request = request.copy(rightRoot = folder)
+                findFiles()
+            }
         }
 
+        findFiles()
+    }
+
+    private fun selectFolder(): File? {
+        val directoryChooser = DirectoryChooser()
+        return directoryChooser.showDialog(null)
+    }
+
+    fun findFiles() {
         val filesAt = fileService.filesAt(request)
         diffItems.setAll(filesAt)
         diffItems.sort()
