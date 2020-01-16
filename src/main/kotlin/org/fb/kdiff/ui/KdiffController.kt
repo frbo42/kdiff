@@ -19,6 +19,7 @@ import org.fb.kdiff.domain.PathRequest
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Component
 import java.io.File
+import java.util.prefs.Preferences
 
 
 @Component
@@ -26,9 +27,10 @@ class KdiffController(private val fileService: FileService) {
 
     private val diffItems = FXCollections.observableArrayList<DiffItem>()
 
+    private val prefs = Preferences.userRoot().node("kdiff")
     private var request = PathRequest(
-            File("/home/frank/development/frbo/kotlin/kdiff_pics/mimacom"),
-            File("/home/frank/development/frbo/kotlin/kdiff_pics/target")
+            File(prefs.get("leftRoot", "/home/frank/development/frbo/kotlin/kdiff_pics/mimacom")),
+            File(prefs.get("rightRoot", "/home/frank/development/frbo/kotlin/kdiff_pics/target"))
     )
 
     @FXML
@@ -49,6 +51,7 @@ class KdiffController(private val fileService: FileService) {
             val folder = selectFolder()
             folder?.let {
                 request = request.copy(leftRoot = folder)
+                prefs.put("leftRoot", folder.canonicalPath)
                 findFiles()
             }
         }
@@ -57,6 +60,7 @@ class KdiffController(private val fileService: FileService) {
             val folder = selectFolder()
             folder?.let {
                 request = request.copy(rightRoot = folder)
+                prefs.put("rightRoot", folder.canonicalPath)
                 findFiles()
             }
         }
