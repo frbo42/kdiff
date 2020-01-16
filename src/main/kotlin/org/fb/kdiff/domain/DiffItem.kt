@@ -5,4 +5,8 @@ data class DiffItem(val left: String, var right: String) : Comparable<DiffItem> 
     override fun compareTo(other: DiffItem): Int {
         return left.compareTo(other.left)
     }
+
+    fun isRightEnabled(): Boolean {
+        return left != right
+    }
 }
