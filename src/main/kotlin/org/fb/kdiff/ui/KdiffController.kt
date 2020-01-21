@@ -4,10 +4,7 @@ import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import javafx.event.EventHandler
 import javafx.fxml.FXML
-import javafx.scene.control.Button
-import javafx.scene.control.TableCell
-import javafx.scene.control.TableColumn
-import javafx.scene.control.TableView
+import javafx.scene.control.*
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.layout.HBox
@@ -41,6 +38,10 @@ class KdiffController(private val fileService: FileService) {
     private lateinit var leftPath: Button
     @FXML
     private lateinit var rightPath: Button
+    @FXML
+    private lateinit var leftTooltip: Tooltip
+    @FXML
+    private lateinit var rightTooltip: Tooltip
 
     @FXML
     fun initialize() {
@@ -53,6 +54,7 @@ class KdiffController(private val fileService: FileService) {
                 request = request.copy(leftRoot = folder)
                 prefs.put("leftRoot", folder.canonicalPath)
                 findFiles()
+
             }
         }
 
@@ -62,6 +64,7 @@ class KdiffController(private val fileService: FileService) {
                 request = request.copy(rightRoot = folder)
                 prefs.put("rightRoot", folder.canonicalPath)
                 findFiles()
+
             }
         }
 
@@ -77,6 +80,8 @@ class KdiffController(private val fileService: FileService) {
         val filesAt = fileService.filesAt(request)
         diffItems.setAll(filesAt)
         diffItems.sort()
+        leftTooltip.text = request.leftRoot.canonicalPath
+        rightTooltip.text = request.rightRoot.canonicalPath
     }
 }
 
