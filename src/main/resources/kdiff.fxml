@@ -10,8 +10,16 @@
       prefHeight="400.0" prefWidth="600.0">
 
     <ToolBar>
-        <Button text="Left" fx:id="leftPath"/>
-        <Button text="Right" fx:id="rightPath"/>
+        <Button text="Left" fx:id="leftPath">
+            <tooltip>
+                <Tooltip fx:id="leftTooltip"/>
+            </tooltip>
+        </Button>
+        <Button text="Right" fx:id="rightPath">
+            <tooltip>
+                <Tooltip fx:id="rightTooltip"/>
+            </tooltip>
+        </Button>
     </ToolBar>
 
     <TableView
