@@ -43,7 +43,7 @@ class KdiffController(private val fileService: FileService, private val preferen
         diffTable.items = diffItems
 
         leftPath.onAction = EventHandler {
-            val folder = selectFolder()
+            val folder = selectFolder(request.leftRoot, "left")
             folder?.let {
                 request = request.copy(leftRoot = folder)
                 preferenceService.saveLeftPath(folder)
@@ -52,7 +52,7 @@ class KdiffController(private val fileService: FileService, private val preferen
         }
 
         rightPath.onAction = EventHandler {
-            val folder = selectFolder()
+            val folder = selectFolder(request.rightRoot, "right")
             folder?.let {
                 request = request.copy(rightRoot = folder)
                 preferenceService.saveRightPath(folder)
@@ -63,9 +63,11 @@ class KdiffController(private val fileService: FileService, private val preferen
         findFiles()
     }
 
-    private fun selectFolder(): File? {
+    private fun selectFolder(initialDir: File, side: String): File? {
         val directoryChooser = DirectoryChooser()
-        return directoryChooser.showDialog(null)
+        directoryChooser.initialDirectory = initialDir
+        directoryChooser.title = "Select $side folder"
+        return directoryChooser.showDialog(leftPath.scene.window)
     }
 
     fun findFiles() {
