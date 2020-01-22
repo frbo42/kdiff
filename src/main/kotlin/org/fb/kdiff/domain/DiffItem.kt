@@ -25,19 +25,19 @@ data class DiffItem(var left: File, var right: File) : Comparable<DiffItem> {
     }
 
     fun copyLeft() {
-        val parent = left.parent
-        val name = right.name
-        left = File(parent, name)
+        left = buildDestination(right, left)
 
         right.copyTo(left)
     }
 
     fun copyRight() {
-        val parent = right.parent
-        val name = left.name
-        right = File(parent, name)
+        right = buildDestination(left, right)
 
         left.copyTo(right)
+    }
+
+    private fun buildDestination(from: File, to: File): File {
+        return File(to.parent, from.name)
     }
 
     val leftName: String
