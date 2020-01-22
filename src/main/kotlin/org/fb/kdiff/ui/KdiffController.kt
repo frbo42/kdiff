@@ -11,24 +11,18 @@ import javafx.scene.layout.HBox
 import javafx.stage.DirectoryChooser
 import javafx.util.Callback
 import org.fb.kdiff.app.FileService
+import org.fb.kdiff.app.PreferenceService
 import org.fb.kdiff.domain.DiffItem
-import org.fb.kdiff.domain.PathRequest
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Component
 import java.io.File
-import java.util.prefs.Preferences
 
 
 @Component
-class KdiffController(private val fileService: FileService) {
+class KdiffController(private val fileService: FileService, private val preferenceService: PreferenceService) {
 
     private val diffItems = FXCollections.observableArrayList<DiffItem>()
-
-    private val prefs = Preferences.userRoot().node("kdiff")
-    private var request = PathRequest(
-            File(prefs.get("leftRoot", "/home/frank/development/frbo/kotlin/kdiff_pics/mimacom")),
-            File(prefs.get("rightRoot", "/home/frank/development/frbo/kotlin/kdiff_pics/target"))
-    )
+    private var request = preferenceService.initialPath()
 
     @FXML
     private lateinit var diffTable: TableView<DiffItem>
@@ -52,9 +46,8 @@ class KdiffController(private val fileService: FileService) {
             val folder = selectFolder()
             folder?.let {
                 request = request.copy(leftRoot = folder)
-                prefs.put("leftRoot", folder.canonicalPath)
+                preferenceService.saveLeftPath(folder)
                 findFiles()
-
             }
         }
 
@@ -62,9 +55,8 @@ class KdiffController(private val fileService: FileService) {
             val folder = selectFolder()
             folder?.let {
                 request = request.copy(rightRoot = folder)
-                prefs.put("rightRoot", folder.canonicalPath)
+                preferenceService.saveRightPath(folder)
                 findFiles()
-
             }
         }
 
