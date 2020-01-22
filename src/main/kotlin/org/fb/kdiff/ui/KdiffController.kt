@@ -105,14 +105,14 @@ class ActionCell(private val fileService: FileService, private val diffItems: Ob
     }
 
     private fun copyRight(item: DiffItem) {
-        val changed = fileService.copyRight(item)
         val indexOf = diffItems.indexOf(item)
+        val changed = fileService.copyRight(item)
         diffItems[indexOf] = changed
     }
 
     private fun copyLeft(item: DiffItem) {
-        val changed = fileService.copyLeft(item)
         val indexOf = diffItems.indexOf(item)
+        val changed = fileService.copyLeft(item)
         diffItems[indexOf] = changed
     }
 
