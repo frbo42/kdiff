@@ -96,15 +96,21 @@ class ActionCell(private val fileService: FileService, private val diffItems: Ob
 
     init {
         toRight.onAction = EventHandler { tableRow?.item?.let { it1 -> copyRight(it1) } }
-        toLeft.isDisable = true
+        toLeft.onAction = EventHandler { tableRow?.item?.let { it1 -> copyLeft(it1) } }
     }
 
-    private fun buttonState(item: DiffItem) {
+    private fun rightButtonState(item: DiffItem) {
         toRight.isDisable = !item.isRightEnabled()
     }
 
     private fun copyRight(item: DiffItem) {
         val changed = fileService.copyRight(item)
+        val indexOf = diffItems.indexOf(item)
+        diffItems[indexOf] = changed
+    }
+
+    private fun copyLeft(item: DiffItem) {
+        val changed = fileService.copyLeft(item)
         val indexOf = diffItems.indexOf(item)
         diffItems[indexOf] = changed
     }
@@ -117,7 +123,7 @@ class ActionCell(private val fileService: FileService, private val diffItems: Ob
             graphic = null
         } else {
             graphic = box
-            tableRow?.item?.let { it -> buttonState(it) }
+            tableRow?.item?.let { it -> rightButtonState(it) }
         }
     }
 }

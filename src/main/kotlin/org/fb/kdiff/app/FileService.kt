@@ -40,6 +40,15 @@ class FileService {
         return diffItem
     }
 
+    fun copyLeft(diffItem: DiffItem): DiffItem {
+        val parent = diffItem.left.parent
+        val name = diffItem.right.name
+        diffItem.left = File(parent, name)
+
+        diffItem.right.copyTo(diffItem.left)
+        return diffItem
+    }
+
     companion object {
         private const val MISSING = "-"
     }

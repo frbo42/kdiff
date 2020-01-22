@@ -3,7 +3,7 @@ package org.fb.kdiff.domain
 import java.io.File
 
 
-data class DiffItem(val left: File, var right: File) : Comparable<DiffItem> {
+data class DiffItem(var left: File, var right: File) : Comparable<DiffItem> {
     override fun compareTo(other: DiffItem): Int {
         return leftName.compareTo(other.leftName)
     }
