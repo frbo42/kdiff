@@ -32,20 +32,12 @@ class FileService {
     }
 
     fun copyRight(diffItem: DiffItem): DiffItem {
-        val parent = diffItem.right.parent
-        val name = diffItem.left.name
-        diffItem.right = File(parent, name)
-
-        diffItem.left.copyTo(diffItem.right)
+        diffItem.copyRight()
         return diffItem
     }
 
     fun copyLeft(diffItem: DiffItem): DiffItem {
-        val parent = diffItem.left.parent
-        val name = diffItem.right.name
-        diffItem.left = File(parent, name)
-
-        diffItem.right.copyTo(diffItem.left)
+        diffItem.copyLeft()
         return diffItem
     }
 
