@@ -99,8 +99,9 @@ class ActionCell(private val fileService: FileService, private val diffItems: Ob
         toLeft.onAction = EventHandler { tableRow?.item?.let { it1 -> copyLeft(it1) } }
     }
 
-    private fun rightButtonState(item: DiffItem) {
+    private fun buttonsState(item: DiffItem) {
         toRight.isDisable = !item.isRightEnabled()
+        toLeft.isDisable = !item.isLeftEnabled()
     }
 
     private fun copyRight(item: DiffItem) {
@@ -123,7 +124,7 @@ class ActionCell(private val fileService: FileService, private val diffItems: Ob
             graphic = null
         } else {
             graphic = box
-            tableRow?.item?.let { it -> rightButtonState(it) }
+            tableRow?.item?.let { it -> buttonsState(it) }
         }
     }
 }

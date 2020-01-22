@@ -17,8 +17,8 @@ class FileService {
         merged.addAll(rightFiles)
 
         return merged.map {
-            val left = if (leftFiles.contains(it)) it else MISSING
-            val right = if (rightFiles.contains(it)) it else MISSING
+            val left = if (leftFiles.contains(it)) it else DiffItem.MISSING
+            val right = if (rightFiles.contains(it)) it else DiffItem.MISSING
             DiffItem(File(pathRequest.leftRoot, left), File(pathRequest.rightRoot, right))
         }
     }
@@ -39,9 +39,5 @@ class FileService {
     fun copyLeft(diffItem: DiffItem): DiffItem {
         diffItem.copyLeft()
         return diffItem
-    }
-
-    companion object {
-        private const val MISSING = "-"
     }
 }

@@ -9,7 +9,19 @@ data class DiffItem(var left: File, var right: File) : Comparable<DiffItem> {
     }
 
     fun isRightEnabled(): Boolean {
-        return leftName != rightName
+        return isRightEmpty()
+    }
+
+    fun isLeftEnabled(): Boolean {
+        return isLeftEmpty()
+    }
+
+    private fun isRightEmpty(): Boolean {
+        return right.name == MISSING
+    }
+
+    private fun isLeftEmpty(): Boolean {
+        return left.name == MISSING
     }
 
     fun copyLeft() {
@@ -37,4 +49,8 @@ data class DiffItem(var left: File, var right: File) : Comparable<DiffItem> {
         get() {
             return right.name
         }
+
+    companion object {
+        const val MISSING = "-"
+    }
 }
