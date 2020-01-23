@@ -12,21 +12,22 @@ class FileService {
         val leftFiles = fileList(pathRequest.leftRoot)
         val rightFiles = fileList(pathRequest.rightRoot)
 
-        val merged = mutableSetOf<String>()
+        val merged = mutableSetOf<File>()
         merged.addAll(leftFiles)
         merged.addAll(rightFiles)
 
         return merged.map {
-            val left = if (leftFiles.contains(it)) it else DiffItem.MISSING
-            val right = if (rightFiles.contains(it)) it else DiffItem.MISSING
-            DiffItem(File(pathRequest.leftRoot, left), File(pathRequest.rightRoot, right))
+            val left = if (leftFiles.contains(it)) it else File(DiffItem.MISSING)
+            val right = if (rightFiles.contains(it)) it else File(DiffItem.MISSING)
+            DiffItem(left, right, pathRequest.leftRoot, pathRequest.rightRoot)
         }
     }
 
-    private fun fileList(path: File): List<String> {
+    private fun fileList(path: File): List<File> {
         return if (path.exists()) {
-            path.list()
-                    .asList()
+            path.walk()
+                    .map { it.relativeTo(path) }
+                    .toList()
         } else
             listOf()
     }

@@ -3,7 +3,7 @@ package org.fb.kdiff.domain
 import java.io.File
 
 
-data class DiffItem(var left: File, var right: File) : Comparable<DiffItem> {
+data class DiffItem(var left: File, var right: File, val leftRoot: File, val rightRoot: File) : Comparable<DiffItem> {
     override fun compareTo(other: DiffItem): Int {
         return leftName.compareTo(other.leftName)
     }
@@ -25,29 +25,25 @@ data class DiffItem(var left: File, var right: File) : Comparable<DiffItem> {
     }
 
     fun copyLeft() {
-        left = buildDestination(right, left)
-
-        right.copyTo(left)
+        val target = leftRoot.resolve(right)
+        rightRoot.resolve(right).copyTo(target)
+        left = right
     }
 
     fun copyRight() {
-        right = buildDestination(left, right)
-
-        left.copyTo(right)
-    }
-
-    private fun buildDestination(from: File, to: File): File {
-        return File(to.parent, from.name)
+        val target = rightRoot.resolve(left)
+        leftRoot.resolve(left).copyTo(target)
+        right = left
     }
 
     val leftName: String
         get() {
-            return left.name
+            return left.path
         }
 
     val rightName: String
         get() {
-            return right.name
+            return right.path
         }
 
     companion object {

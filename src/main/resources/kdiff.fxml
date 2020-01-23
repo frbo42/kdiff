@@ -2,45 +2,44 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<VBox xmlns:fx="http://javafx.com/fxml"
-      xmlns="http://javafx.com/javafx"
-      fx:controller="org.fb.kdiff.ui.KdiffController"
-      prefHeight="400.0" prefWidth="600.0">
+<?import javafx.scene.layout.BorderPane?>
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            xmlns="http://javafx.com/javafx"
+            fx:controller="org.fb.kdiff.ui.KdiffController"
+            prefHeight="400.0" prefWidth="600.0">
+    <top>
+        <ToolBar>
+            <Button text="Left" fx:id="leftPath">
+                <tooltip>
+                    <Tooltip fx:id="leftTooltip"/>
+                </tooltip>
+            </Button>
+            <Button text="Right" fx:id="rightPath">
+                <tooltip>
+                    <Tooltip fx:id="rightTooltip"/>
+                </tooltip>
+            </Button>
+        </ToolBar>
+    </top>
+    <center>
+        <TableView
+                fx:id="diffTable">
+            <columns>
+                <TableColumn text="Left">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="leftName"/>
+                    </cellValueFactory>
+                </TableColumn>
 
-    <ToolBar>
-        <Button text="Left" fx:id="leftPath">
-            <tooltip>
-                <Tooltip fx:id="leftTooltip"/>
-            </tooltip>
-        </Button>
-        <Button text="Right" fx:id="rightPath">
-            <tooltip>
-                <Tooltip fx:id="rightTooltip"/>
-            </tooltip>
-        </Button>
-    </ToolBar>
+                <TableColumn text="action" fx:id="actionColumn">
+                </TableColumn>
 
-    <TableView
-            fx:id="diffTable"
-            HBox.hgrow="ALWAYS">
-        <columns>
-            <TableColumn text="Left">
-                <cellValueFactory>
-                    <PropertyValueFactory property="leftName"/>
-                </cellValueFactory>
-            </TableColumn>
-
-            <TableColumn text="action" fx:id="actionColumn">
-            </TableColumn>
-
-            <TableColumn text="right">
-                <cellValueFactory>
-                    <PropertyValueFactory property="rightName"/>
-                </cellValueFactory>
-            </TableColumn>
-        </columns>
-    </TableView>
-
-</VBox>
+                <TableColumn text="right">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="rightName"/>
+                    </cellValueFactory>
+                </TableColumn>
+            </columns>
+        </TableView>
+    </center>
+</BorderPane>
