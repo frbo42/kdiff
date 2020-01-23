@@ -26,6 +26,7 @@ class FileService {
     private fun fileList(path: File): List<File> {
         return if (path.exists()) {
             path.walk()
+                    .filter { it != path }
                     .map { it.relativeTo(path) }
                     .toList()
         } else
