@@ -12,6 +12,7 @@ import javafx.scene.image.ImageView
 import javafx.scene.layout.HBox
 import javafx.stage.DirectoryChooser
 import javafx.util.Callback
+import net.rgielen.fxweaver.core.FxmlView
 import org.fb.kdiff.app.FileService
 import org.fb.kdiff.app.PreferenceService
 import org.fb.kdiff.domain.DiffItem
@@ -21,6 +22,7 @@ import java.io.File
 
 
 @Component
+@FxmlView
 class KdiffController(private val fileService: FileService, private val preferenceService: PreferenceService) {
 
     private val diffItems = FXCollections.observableArrayList<DiffItem>()
