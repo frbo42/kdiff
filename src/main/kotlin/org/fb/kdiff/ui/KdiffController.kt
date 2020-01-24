@@ -4,6 +4,8 @@ import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import javafx.event.EventHandler
 import javafx.fxml.FXML
+import javafx.geometry.Insets
+import javafx.geometry.Pos
 import javafx.scene.control.*
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
@@ -95,8 +97,12 @@ class ActionCell(private val fileService: FileService, private val diffItems: Ob
     private val box = HBox(5.0, toLeft, toRight)
 
     init {
-        toRight.onAction = EventHandler { tableRow?.item?.let { it1 -> copyRight(it1) } }
+        box.alignment = Pos.CENTER
+        val insets = Insets(1.0, 8.0, 1.0, 8.0)
+        toLeft.padding = insets
+        toRight.padding = insets
         toLeft.onAction = EventHandler { tableRow?.item?.let { it1 -> copyLeft(it1) } }
+        toRight.onAction = EventHandler { tableRow?.item?.let { it1 -> copyRight(it1) } }
     }
 
     private fun buttonsState(item: DiffItem) {
